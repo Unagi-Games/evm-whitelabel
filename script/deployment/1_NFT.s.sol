@@ -2,7 +2,9 @@
 pragma solidity 0.8.25;
 
 import "forge-std/Script.sol";
+import "forge-std/StdJson.sol";
 import "@/NFT.sol";
+import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
 contract DeployNFT is Script {
     function run() external {
@@ -25,10 +27,15 @@ contract DeployNFT is Script {
         nft.grantRole(nft.DEFAULT_ADMIN_ROLE(), admin);
         nft.grantRole(nft.MINT_ROLE(), minter);
         nft.grantRole(nft.PAUSER_ROLE(), pauser);
-        nft.renounceRole(nft.PAUSER_ROLE(), msg.sender);
-        nft.renounceRole(nft.MINT_ROLE(), msg.sender);
         nft.renounceRole(nft.DEFAULT_ADMIN_ROLE(), msg.sender);
 
         vm.stopBroadcast();
+    }
+
+    function getAddress() public view returns (address) {
+        string memory path = string.concat(
+            vm.projectRoot(), "/broadcast/1_NFT.s.sol/", Strings.toString(vm.envUint("CHAIN_ID")), "/run-latest.json"
+        );
+        return stdJson.readAddress(vm.readFile(path), ".transactions[0].contractAddress");
     }
 }

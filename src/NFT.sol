@@ -30,8 +30,6 @@ contract NFT is ERC721URIStorage, AccessControl, Pausable {
         _tokenIds = initialId;
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _grantRole(MINT_ROLE, msg.sender);
-        _grantRole(PAUSER_ROLE, msg.sender);
     }
 
     /**

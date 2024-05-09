@@ -70,7 +70,6 @@ contract Marketplace is AccessControlUpgradeable {
         _NFT_CONTRACT = IERC721(nftAddress);
 
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        _grantRole(FEE_MANAGER_ROLE, _msgSender());
     }
 
     /**
