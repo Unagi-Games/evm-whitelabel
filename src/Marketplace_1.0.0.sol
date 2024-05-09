@@ -65,16 +65,12 @@ contract Marketplace is AccessControlUpgradeable {
     // (nft ID => address) mapping of reserved offers
     mapping(uint64 => address) private _reservedOffers;
 
-    constructor() {
-        _disableInitializers();
-    }
-
     function initialize(address tokenAddress, address nftAddress) public initializer {
         _TOKEN_CONTRACT = IERC20(tokenAddress);
         _NFT_CONTRACT = IERC721(nftAddress);
 
-        grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        grantRole(FEE_MANAGER_ROLE, _msgSender());
+        _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _grantRole(FEE_MANAGER_ROLE, _msgSender());
     }
 
     /**
