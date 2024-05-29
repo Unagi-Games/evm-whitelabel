@@ -32,8 +32,10 @@ contract DeployMarketplace is Script {
         require(
             marketplace.hasRole(marketplace.DEFAULT_ADMIN_ROLE(), msg.sender), "Expect DEFAULT_ADMIN_ROLE on Deployer"
         );
+        marketplace.grantRole(marketplace.FEE_MANAGER_ROLE(), msg.sender);
         marketplace.setMarketplaceFeesReceiver(feeReceiver);
         marketplace.setMarketplacePercentFees(sellPercentFee, buyPercentFee, burnPercentFee);
+        marketplace.renounceRole(marketplace.FEE_MANAGER_ROLE(), msg.sender);
         marketplace.grantRole(marketplace.DEFAULT_ADMIN_ROLE(), admin);
         marketplace.grantRole(marketplace.FEE_MANAGER_ROLE(), feeManager);
         marketplace.renounceRole(marketplace.DEFAULT_ADMIN_ROLE(), msg.sender);

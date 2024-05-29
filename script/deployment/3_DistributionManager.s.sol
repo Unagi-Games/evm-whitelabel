@@ -30,7 +30,9 @@ contract DeployDistributionManager is Script {
         vm.stopBroadcast();
         vm.startBroadcast(vm.envUint("BCI_PRIVATE_KEY"));
 
-        require(msg.sender == vm.envAddress("BCI"), "BCI_PRIVATE_KEY does not match BCI address");
+        require(
+            vm.addr(vm.envUint("BCI_PRIVATE_KEY")) == vm.envAddress("BCI"), "BCI_PRIVATE_KEY does not match BCI address"
+        );
 
         IERC20 token = IERC20(tokenAddress);
         token.approve(address(distributionManager), type(uint256).max);
