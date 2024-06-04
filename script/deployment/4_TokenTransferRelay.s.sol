@@ -19,7 +19,7 @@ contract DeployDistributionManager is Script {
         require(msg.sender != admin, "Deployer cannot be the admin wallet");
         require(msg.sender != operator, "Deployer cannot be the operator wallet");
 
-        TokenTransferRelay tokenRelay = new TokenTransferRelay(tokenAddress, nftAddress, nftReceiver, tokenReceiver);
+        TokenTransferRelay tokenRelay = new TokenTransferRelay(nftAddress, tokenAddress, nftReceiver, tokenReceiver);
         tokenRelay.grantRole(tokenRelay.DEFAULT_ADMIN_ROLE(), admin);
         tokenRelay.grantRole(tokenRelay.MAINTENANCE_ROLE(), admin);
         tokenRelay.grantRole(tokenRelay.OPERATOR_ROLE(), operator);
