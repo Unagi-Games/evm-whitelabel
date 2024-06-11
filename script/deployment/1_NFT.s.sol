@@ -4,6 +4,7 @@ pragma solidity 0.8.25;
 import "forge-std/Script.sol";
 import "forge-std/StdJson.sol";
 import "@/NFT.sol";
+import "@/NFTLegacyMulticall.sol";
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
 contract DeployNFT is Script {
@@ -11,6 +12,7 @@ contract DeployNFT is Script {
         address admin = vm.envAddress("ADMIN_TIMELOCK_2D");
         address minter = vm.envAddress("BCI");
         address pauser = vm.envAddress("ADMIN");
+        bool useLegacyMulticall = vm.envBool("NFT_USE_LEGACY_MULTICALL");
         uint256 initialId = vm.envUint("NFT_INITIAL_ID");
         string memory baseURI = vm.envString("NFT_BASE_URI");
         string memory name = vm.envString("NFT_NAME");
@@ -22,7 +24,8 @@ contract DeployNFT is Script {
         require(msg.sender != minter, "Deployer cannot be the minter wallet");
         require(msg.sender != pauser, "Deployer cannot be the pauser wallet");
 
-        NFT nft = new NFT(initialId, name, symbol);
+        NFT nft =
+            useLegacyMulticall ? new NFTLegacyMulticall(initialId, name, symbol) : new NFT(initialId, name, symbol);
         nft.setBaseURI(baseURI);
         nft.grantRole(nft.DEFAULT_ADMIN_ROLE(), admin);
         nft.grantRole(nft.MINT_ROLE(), minter);
