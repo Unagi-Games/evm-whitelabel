@@ -93,7 +93,7 @@ contract Marketplace is AccessControlUpgradeable {
         marketplaceSellFeeShare = weiPrice.mulDiv(sellFee, 100);
         marketplaceBuyFeeShare = weiPrice.mulDiv(buyFee, 100);
         marketplaceBurnFeeShare = weiPrice.mulDiv(burnFee, 100);
-        sellerShare = marketplaceSellFeeShare - marketplaceSellFeeShare - marketplaceBurnFeeShare;
+        sellerShare = weiPrice - marketplaceSellFeeShare - marketplaceBurnFeeShare;
     }
 
     /**
